@@ -1,21 +1,22 @@
 import Head from 'next/head';
 import { useState } from 'react';
 import { Button, Col, Form, Input, Layout, Row, Tag, Typography } from 'antd';
+
 import * as commands from '@/commands';
 
 const predefinedCommands = {
-  '/chat': {
-    title: 'Chat',
-    command: 'chat',
-  },
   '/improveCode': {
     title: 'Improve Code',
     command: 'improveCode',
   },
+  '/dailyReport': {
+    title: 'Daily Report',
+    command: 'dailyReport',
+  },
 };
 
 export default function Home() {
-  const [tag, setTag] = useState('/chat');
+  const [tag, setTag] = useState('/dailyReport');
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState('');
