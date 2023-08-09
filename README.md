@@ -73,6 +73,6 @@ Have questions, feedback, or suggestions? Feel free to reach out to us:
 
 Visit my website for more information and updates:
 
-- [Dev GPT Website](https://abul.dev)
+- [Dev GPT Website](https://dev-gpt-paw.vercel.app)
 
 Empower your coding journey with Dev GPT - where understanding code, writing effective test cases, and implementing functions become seamless and efficient. Start enhancing your coding skills today!

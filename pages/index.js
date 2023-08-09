@@ -1,6 +1,16 @@
 import Head from 'next/head';
-import { useState } from 'react';
-import { Button, Col, Form, Input, Layout, Row, Tag, Typography } from 'antd';
+import { useRef, useState } from 'react';
+import {
+  Tag,
+  Col,
+  Row,
+  Form,
+  Input,
+  Button,
+  Divider,
+  Layout,
+  Typography,
+} from 'antd';
 
 import * as commands from '@/commands';
 
@@ -16,6 +26,7 @@ const predefinedCommands = {
 };
 
 export default function Home() {
+  const inputRef = useRef();
   const [tag, setTag] = useState('/dailyReport');
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -39,6 +50,8 @@ export default function Home() {
 
   const handleSubmit = async () => {
     if (description) {
+      setInput('');
+      inputRef.current.focus();
       return setDescription(null);
     }
     const command = commands[predefinedCommands[tag].command];
@@ -61,46 +74,40 @@ export default function Home() {
       </Head>
       <Layout>
         <Form onFinish={handleSubmit}>
-          <Row justify='center' style={{ padding: 24 }}>
-            <Col>
+          <Row
+            justify='center'
+            style={{ padding: '0 24px', textAlign: 'center' }}
+          >
+            <Col span={24}>
               <Tag color='#87d068' style={{ margin: '12px' }}>
                 {predefinedCommands[tag].title}
               </Tag>
             </Col>
 
-            {description ? (
-              <Col span={24}>
-                <pre style={{ whiteSpace: 'pre-wrap' }}>{description}</pre>
-              </Col>
-            ) : (
-              <Col span={24}>
-                <Form.Item size='small'>
-                  <Input.TextArea
-                    disabled={loading}
-                    rows={30}
-                    value={input}
-                    onChange={handleInputChange}
-                    onKeyDown={handleInputKeyDown}
-                  />
-                </Form.Item>
-              </Col>
-            )}
+            <Col xs={description ? 0 : 24} md={10} lg={8}>
+              <Form.Item size='small'>
+                <Input.TextArea
+                  ref={inputRef}
+                  disabled={loading}
+                  rows={28}
+                  value={input}
+                  onChange={handleInputChange}
+                  onKeyDown={handleInputKeyDown}
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={0} md={2} lg={4} />
+            <Col xs={description ? 24 : 0} md={10} lg={8}>
+              <Divider plain>Response</Divider>
+              <Typography.Text style={{ marginBottom: 24 }}>
+                {description}
+              </Typography.Text>
+              <br />
+              <br />
+            </Col>
 
             <Col span={24}>
               <Form.Item>
-                <Button
-                  block
-                  type='primary'
-                  htmlType='submit'
-                  disabled={loading}
-                  loading={loading}
-                >
-                  {description
-                    ? 'Another Try'
-                    : loading
-                    ? 'Generating'
-                    : 'Generate'}
-                </Button>
                 <Typography.Text
                   success
                   strong
@@ -108,6 +115,18 @@ export default function Home() {
                 >
                   {loading ? 'Please wait, Dev GPT is thinking...' : ''}
                 </Typography.Text>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  disabled={loading}
+                  loading={loading}
+                >
+                  {description
+                    ? `New ${predefinedCommands[tag].title}`
+                    : loading
+                    ? 'Generating...'
+                    : 'Generate'}
+                </Button>
               </Form.Item>
             </Col>
           </Row>
